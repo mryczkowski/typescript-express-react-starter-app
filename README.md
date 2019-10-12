@@ -18,8 +18,9 @@ JSON Web Tokens. Some key technologies in use are:
 ## Usage
 
 1. Copy `.env.example` as `.env` and set variables accordingly
-2. Ensure you have Docker running on your machine
-3. From the project root directory, run `docker-compose build`, then `docker-compose up`
+2. From the project root directory, run `npm install`, then `cd react-app` and `npm install`
+3. Ensure you have Docker running on your machine
+4. From the project root directory, run `docker-compose build`, then `docker-compose up`
 
 The app should now be available on your machine at `http://localhost:3000`!
 

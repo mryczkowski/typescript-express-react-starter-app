@@ -3,6 +3,7 @@ import * as service from '../services/User';
 
 export function registerUser(req: Request, res: Response, next: NextFunction) {
     service.registerUser(req.body).then(user => {
+        user.password = ''; //remove password field from created object
         res.json({ user });
     }).catch(next);
 }

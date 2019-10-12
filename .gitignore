@@ -1,0 +1,23 @@
+# dependencies
+/node_modules
+/react-app/node_modules
+/public
+
+# misc
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+/.vscode
+/.pnp
+.pnp.js
+*.code-workspace
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+error.log
+
+/build
+/react-app/build

@@ -1,0 +1,56 @@
+version: '3.3'
+volumes:
+  db-volume:
+services:
+  cache:
+    container_name: my-app-cache
+    image: redis:alpine
+    expose:
+      - 6379
+  db:
+    container_name: my-app-db
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - db-volume:/var/lib/mysql
+    ports:
+      - 3306
+    expose:
+      - 3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_HOST=${DB_HOST}
+  app:
+    container_name: my-app
+    build: .
+    volumes:
+      - .:/usr/src/app
+    expose:
+      - 3001
+    ports:
+      - 3001:3001
+    links:
+      - db
+      - cache
+    depends_on:
+      - db
+      - cache
+    # same names of services defined above
+    environment:
+      - DB_HOST=db
+      - REDIS_HOST=cache
+  react-app:
+    container_name: my-react-app
+    build: ./react-app
+    volumes:
+      - ./react-app:/app
+      - /app/node_modules
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    links:
+      - app
+    environment:
+      - NODE_ENV=development

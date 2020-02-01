@@ -1,14 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import styles from './SignUpForm.module.css'
 import { ReqStatus } from '../../../typings/request';
 import { minPasswordLength } from '../../../util/user';
+import { AppState } from '../../../state/appReducer';
+import { registerUser } from '../../../state/user/userActions';
 
 interface Props {
     signUpReqStatus: ReqStatus;
     validationErrors: any;
-    registerUser(email: string, password: string): void;
+    registerUser(email: string, password: string): Promise<void>;
 }
 
 interface State {
@@ -128,4 +131,13 @@ class SignUpForm extends React.Component<Props, State> {
     }
 }
 
-export default SignUpForm;
+const mapStateToProps = (state: AppState) => ({
+    signUpReqStatus: state.user.signUpReqStatus,
+    validationErrors: state.user.error.validationErrors,
+});
+
+const mapDispatchToProps = {
+    registerUser,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);

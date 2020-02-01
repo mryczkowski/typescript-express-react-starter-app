@@ -1,17 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import { ReqStatus } from '../../../typings/request';
+import { ReqStatus } from '../../typings/request';
+import { login } from '../../state/user/userActions';
+import { AppState } from '../../state/appReducer';
 
 interface Props {
     loginReqStatus: ReqStatus;
     loggedIn: boolean;
     validationErrors: {
-        username?: string,
-        password?: string,
+        username?: string;
+        password?: string;
     };
-    errorMessage: string,
-    login(email: string, password: string): void;
+    errorMessage: string;
+    login(email: string, password: string): Promise<void>;
 }
 
 interface State {
@@ -79,4 +82,15 @@ class LoginForm extends React.Component<Props, State> {
     }
 }
 
-export default LoginForm;
+const mapStateToProps = (state: AppState) => ({
+    loginReqStatus: state.user.loginReqStatus,
+    loggedIn: state.user.loggedIn,
+    validationErrors: state.user.error.validationErrors || {},
+    errorMessage: state.user.error.message,
+});
+
+const mapDispatchToProps = {
+    login,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

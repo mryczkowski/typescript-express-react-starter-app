@@ -7,16 +7,15 @@ import axios from 'axios';
 
 import './index.css';
 import App from './components/App';
-import appReducer from './state/appReducer';
 import { getCookie } from './util/storage';
 import { parseErr } from './util/client';
 import * as serviceWorker from './serviceWorker';
+import appReducer from './state/appReducer';
 
 // axios
 axios.defaults.headers['x-csrf-token'] = getCookie('my_app.csrf_token');
 axios.interceptors.response.use(response => response, parseErr); // used to consolidate errors to a common error object
 
-// redux
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(appReducer, composeEnhancers(applyMiddleware(thunk)));
 

@@ -1,15 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Switch, Redirect, Route, Link, RouteComponentProps } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
 
-import { logout, getCurrentUser } from '../../state/user/userAsyncActions'
+import { getCurrentUser, logout } from '../../state/user/userActions';
 import { AppState } from '../../state/appReducer';
 
 interface Props extends RouteComponentProps {
     loggedIn: boolean;
-    logout: typeof logout;
-    getCurrentUser: typeof getCurrentUser;
+    getCurrentUser(): Promise<void>;
+    logout(): Promise<void>;
 }
 
 class AdminPage extends React.Component<Props> {
@@ -56,8 +55,9 @@ const mapStateToProps = (state: AppState) => ({
     loggedIn: state.user.loggedIn,
 });
 
-const mapDispatchToProps = dispatch => (
-    bindActionCreators({ logout, getCurrentUser }, dispatch)
-);
+const mapDispatchToProps = {
+    getCurrentUser,
+    logout,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminPage);

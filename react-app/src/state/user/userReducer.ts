@@ -1,4 +1,5 @@
-import * as actions from './userActions';
+import * as actions from './userActionTypes';
+import { UserActionTypes } from './userActions';
 import { getCookie } from '../../util/storage';
 import { ReqStatus, ReqError } from '../../typings/request';
 import { User } from './userModel';
@@ -27,31 +28,31 @@ const initialState: UserState = {
     }
 };
 
-export default function userReducer(state = initialState, action): UserState {
+export default function userReducer(state = initialState, action: UserActionTypes): UserState {
     switch (action.type) {
-        case actions.FETCHING_CURRENT_USER:
+        case actions.FETCH_CURRENT_USER_REQUEST:
             return {
                 ...state,
                 fetchCurrentUserReqStatus: 'pending',
             };
-        case actions.FETCHED_CURRENT_USER:
+        case actions.FETCH_CURRENT_USER_SUCCESS:
             return {
                 ...state,
-                currentUser: action.user,
+                currentUser: action.payload.user,
                 fetchCurrentUserReqStatus: 'success',
             };
-        case actions.FETCH_CURRENT_USER_FAILED:
+        case actions.FETCH_CURRENT_USER_FAILURE:
             return {
                 ...state,
                 fetchCurrentUserReqStatus: 'error',
             };
-        case actions.LOGGING_OUT: {
+        case actions.LOGOUT_REQUEST: {
             return {
                 ...state,
                 logoutReqStatus: 'pending',
             };
         }
-        case actions.LOGGED_OUT: {
+        case actions.LOGOUT_SUCCESS: {
             return {
                 ...state,
                 logoutReqStatus: 'success',
@@ -59,46 +60,46 @@ export default function userReducer(state = initialState, action): UserState {
                 currentUser: initialState.currentUser,
             };
         }
-        case actions.LOGOUT_FAILED: {
+        case actions.LOGOUT_FAILURE: {
             return {
                 ...state,
                 logoutReqStatus: 'error',
             };
         }
-        case actions.LOGGING_IN:
+        case actions.LOGIN_REQUEST:
             return {
                 ...state,
                 loginReqStatus: 'pending',
             };
-        case actions.LOGGED_IN:
+        case actions.LOGIN_SUCCESS:
             return {
                 ...state,
                 loginReqStatus: 'success',
                 loggedIn: true,
             };
-        case actions.LOGIN_FAILED:
+        case actions.LOGIN_FAILURE:
             return {
                 ...state,
                 loginReqStatus: 'error',
                 loggedIn: false,
-                error: action.error,
+                error: action.payload.error,
             };
-        case actions.REGISTERING_USER:
+        case actions.REGISTER_USER_REQUEST:
             return {
                 ...state,
                 signUpReqStatus: 'pending',
             };
-        case actions.REGISTERED_USER:
+        case actions.REGISTER_USER_SUCCESS:
             return {
                 ...state,
                 signUpReqStatus: 'success',
-                currentUser: action.user,
+                currentUser: action.payload.user,
             };
-        case actions.REGISTER_USER_FAILED:
+        case actions.REGISTER_USER_FAILURE:
             return {
                 ...state,
                 signUpReqStatus: 'error',
-                error: action.error,
+                error: action.payload.error,
             };
         default: return state;
     }

@@ -44,7 +44,7 @@
     "@types/redis": "^2.8.14",
     "@types/sequelize": "^4.28.5",
     "chai": "^4.2.0",
-    "mocha": "^6.2.0",
+    "mocha": "^10.2.0",
     "nodemon": "^1.19.2",
     "sequelize-cli": "^5.5.1",
     "ts-node": "^7.0.1",
